@@ -1,94 +1,83 @@
-CREATE TABLE users(
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    fullname VARCHAR(30) DEFAULT '',
-    phone_number VARCHAR(10) NOT NULL,
-    address VARCHAR(50) DEFAULT '',
-    password VARCHAR(30) NOT NULL DEFAULT '',
-    created_at DATETIME,
-    updated_at DATETIME,
-    is_active TINYINT(1) DEFAULT 1,
-    date_of_birth DATE,
-    role_id INT,
-    facebook_account_id INT DEFAULT 0,
-    google_account_id INT DEFAULT 0,
-    FOREIGN KEY (role_id) REFERENCES roles (id)
+CREATE TABLE Khachhang(
+    Ma INT PRIMARY KEY AUTO_INCREMENT,
+    Tentaikhoan VARCHAR(30) DEFAULT '',
+    Matkhau VARCHAR(30) NOT NULL DEFAULT '',
+    Hoten VARCHAR(30) DEFAULT '',
+    Ngaysinh DATE,
+    SDT VARCHAR(10) NOT NULL,
+    Email VARCHAR(30) DEFAULT '',
+    Diachi VARCHAR(50) DEFAULT '',
+    Ngaytao DATETIME,
+    Ngaycapnhat DATETIME,
+    Trangthai TINYINT(1) DEFAULT 1
 );
 
 
-CREATE TABLE roles(
-    id INT PRIMARY KEY,
-    name VARCHAR(10) NOT NULL 
+CREATE TABLE Quantrivien(
+    Ma INT PRIMARY KEY AUTO_INCREMENT,
+    Tentaikhoan VARCHAR(30) DEFAULT '',
+    Matkhau VARCHAR(30) NOT NULL DEFAULT '',
+    SDT VARCHAR(10) NOT NULL,
+    Email VARCHAR(30) DEFAULT '',
+    Ngaytao DATETIME,
 );
 
 
-CREATE TABLE tokens(
-    id int PRIMARY KEY AUTO_INCREMENT,
-    token varchar(100) UNIQUE NOT NULL,
-    token_type varchar(50) NOT NULL,
-    expiration_date DATETIME,
-    revoked tinyint(1) NOT NULL,
-    expired tinyint(1) NOT NULL,
-    user_id int,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+
+CREATE TABLE Danhmucsanpham(
+    Ma INT PRIMARY KEY AUTO_INCREMENT,
+    Ten varchar(30) NOT NULL DEFAULT '' 
+);
+
+CREATE TABLE Sanpham (
+    Ma INT PRIMARY KEY AUTO_INCREMENT,
+    Ten VARCHAR(30),
+    Gia FLOAT NOT NULL CHECK (price >= 0),
+    Hinhthunho VARCHAR(50) DEFAULT '',
+    Mota LONGTEXT DEFAULT '',
+    Ngaytao DATETIME,
+    Ngaycapnhat DATETIME,
+    Ma_Danhmucsanpham INT,
+    FOREIGN KEY (Ma_Danhmucsanpham) REFERENCES Danhmucsanpham (Ma)
+);
+CREATE TABLE Danhgia (
+    Ma INT PRIMARY KEY AUTO_INCREMENT,
+    Ngaytao DATETIME,
+    Sodiem TINYINT(5) ,
+    Noidung LONGTEXT DEFAULT '',
+    Ma_Sanpham INT,
+    Ma_Khachhang INT,
+    FOREIGN KEY (Ma_Sanpham) REFERENCES Sanpham (Ma),
+    FOREIGN KEY (Ma_Khachhang) REFERENCES Khachhang (Ma)
+);
+CREATE TABLE Donhang(
+    Ma INT PRIMARY KEY AUTO_INCREMENT,
+    Hoten_Nguoinhan VARCHAR(30) DEFAULT '',
+    SDT_Nguoinhan VARCHAR(10) NOT NULL,
+    Diachi_Nguoinhan VARCHAR(50) DEFAULT '',
+    Emal_Khachhang VARCHAR(30) DEFAULT '',
+    Ngaydat DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Ngaygiaohang DATE,
+    Ghichu VARCHAR(300) DEFAULT '',
+    Phuongthucvanchuyen VARCHAR(30),
+    Phuongthucthanhtoan VARCHAR(30),
+    Sovandon VARCHAR(30) DEFAULT '',
+    TrangthaiDH ENUM('Đang xử lý','Đang chuẩn bị','Đang vận chuyển','Đang giao hàng','Giao hàng thành công','Đơn hàng đã hủy'),
+    Tongtien FLOAT CHECK(total_money >= 0),
+    Trangthai TINYINT(1) DEFAULT 1,
+    Ma_Khachhang INT,
+    FOREIGN KEY (Ma_Khachhang) REFERENCES Khachhang (Ma)
 );
 
 
-CREATE TABLE social_accounts(
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    provider VARCHAR(30) NOT NULL,
-    provider_id VARCHAR(30) NOT NULL,
-    email VARCHAR(30) NOT NULL ,
-    name VARCHAR(30) NOT NULL ,
-    user_id int,
-    FOREIGN KEY (user_id) REFERENCES users(id)
-);
-
-CREATE TABLE categories(
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name varchar(30) NOT NULL DEFAULT '' 
-);
-
-CREATE TABLE products (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(30),
-    price FLOAT NOT NULL CHECK (price >= 0),
-    thumbnail VARCHAR(50) DEFAULT '',
-    description LONGTEXT DEFAULT '',
-    created_at DATETIME,
-    updated_at DATETIME,
-    category_id INT,
-    FOREIGN KEY (category_id) REFERENCES categories (id)
-);
-
-CREATE TABLE orders(
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id int,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    fullname VARCHAR(30) DEFAULT '',
-    email VARCHAR(30) DEFAULT '',
-    phone_number VARCHAR(10) NOT NULL,
-    address VARCHAR(50) NOT NULL,
-    note VARCHAR(100) DEFAULT '',
-    order_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-     status ENUM('processing','watting for delivery','delivering','successful delivery','cancelled'),
-    shipping_method VARCHAR(30),
-    shipping_address VARCHAR(50),
-    shipping_date DATE,
-    tracking_number VARCHAR(30),
-    payment_method VARCHAR(30),
-    active TINYINT(1),
-    total_money FLOAT CHECK(total_money >= 0)
-);
-
-
-CREATE TABLE order_details(
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    order_id INT,
-    FOREIGN KEY (order_id) REFERENCES orders (id),
-    product_id INT,
-    FOREIGN KEY (product_id) REFERENCES products (id),
-    price FLOAT CHECK(price >= 0),
-    number_of_products INT CHECK(number_of_products > 0),
-    total_money FLOAT CHECK(total_money >= 0)
+CREATE TABLE Chitietdonhang(
+      
+    Gia FLOAT CHECK(price >= 0),
+    Soluong INT CHECK(number_of_products > 0),
+    Thanhtien FLOAT CHECK(total_money >= 0),
+    Ma_Donhang INT,
+    Ma_Sanpham INT,
+    FOREIGN KEY (Ma_Donhang) REFERENCES Donhang (Ma),
+    FOREIGN KEY (Ma_Sanpham) REFERENCES Sanpham (Ma)
    
 );
