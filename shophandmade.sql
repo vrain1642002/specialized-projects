@@ -1,3 +1,5 @@
+create database shophandmade;
+use shophandmade;
 CREATE TABLE Khachhang(
     Ma INT PRIMARY KEY AUTO_INCREMENT,
     Tentaikhoan VARCHAR(30) DEFAULT '',
@@ -19,7 +21,7 @@ CREATE TABLE Quantrivien(
     Matkhau VARCHAR(30) NOT NULL DEFAULT '',
     SDT VARCHAR(10) NOT NULL,
     Email VARCHAR(30) DEFAULT '',
-    Ngaytao DATETIME,
+    Ngaytao DATETIME
 );
 
 
@@ -32,7 +34,7 @@ CREATE TABLE Danhmucsanpham(
 CREATE TABLE Sanpham (
     Ma INT PRIMARY KEY AUTO_INCREMENT,
     Ten VARCHAR(30),
-    Gia FLOAT NOT NULL CHECK (price >= 0),
+    Gia FLOAT NOT NULL CHECK (Gia >= 0),
     Hinhthunho VARCHAR(50) DEFAULT '',
     Mota LONGTEXT DEFAULT '',
     Ngaytao DATETIME,
@@ -63,7 +65,7 @@ CREATE TABLE Donhang(
     Phuongthucthanhtoan VARCHAR(30),
     Sovandon VARCHAR(30) DEFAULT '',
     TrangthaiDH ENUM('Đang xử lý','Đang chuẩn bị','Đang vận chuyển','Đang giao hàng','Giao hàng thành công','Đơn hàng đã hủy'),
-    Tongtien FLOAT CHECK(total_money >= 0),
+    Tongtien FLOAT CHECK(Tongtien >= 0),
     Trangthai TINYINT(1) DEFAULT 1,
     Ma_Khachhang INT,
     FOREIGN KEY (Ma_Khachhang) REFERENCES Khachhang (Ma)
@@ -72,9 +74,9 @@ CREATE TABLE Donhang(
 
 CREATE TABLE Chitietdonhang(
       
-    Gia FLOAT CHECK(price >= 0),
-    Soluong INT CHECK(number_of_products > 0),
-    Thanhtien FLOAT CHECK(total_money >= 0),
+    Gia FLOAT CHECK(Gia >= 0),
+    Soluong INT CHECK(Soluong > 0),
+    Thanhtien FLOAT CHECK(Thanhtien >= 0),
     Ma_Donhang INT,
     Ma_Sanpham INT,
     FOREIGN KEY (Ma_Donhang) REFERENCES Donhang (Ma),
