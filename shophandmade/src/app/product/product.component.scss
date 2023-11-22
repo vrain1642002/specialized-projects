@@ -3,6 +3,9 @@
     color: black;
     margin-bottom: 20px;
 }
+h1{
+     font-family: Times;
+}
 .product-image {
     width: 100%;
     height: auto;
@@ -20,6 +23,7 @@
 
 .product-category {
     width: 300px;
+    border-color:skyblue;
 }
 
 .search-input {
@@ -51,8 +55,23 @@
     border-radius: 20px;
     padding: 20px;
     margin-bottom: 20px;
+    position: relative;
 }
-
+.favorite-button {
+    color: white;
+    position: absolute;
+    top: 6px;
+    right: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s;
+    font-size: 50px;
+}
+//hieu ung khi di chuot
+.favorite-button:hover {
+    color: red; /* Màu đỏ khi di chuột vào */
+}
 .product-image {
     width: 100%;
     height: auto;

@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ProductComponent } from './product/product.component';
+import { DetailProductComponent } from './detail-product/detail-product.component';
 
 
 // import { AppComponent } from './app.component';
@@ -14,14 +15,15 @@ import { ProductComponent } from './product/product.component';
     HomeComponent,
          HeaderComponent,
          FooterComponent,
-         ProductComponent
+         ProductComponent,
+         DetailProductComponent
         
   ],
   imports: [
     BrowserModule
   ],
   providers: [],
-  bootstrap: [ProductComponent]
+  bootstrap: [ DetailProductComponent]
     
 })
 export class AppModule { }
