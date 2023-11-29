@@ -32,7 +32,7 @@ import { RegisterComponent } from './register/register.component';
     BrowserModule
   ],
   providers: [],
-  bootstrap: [ProductComponent]
+  bootstrap: [HomeComponent]
     
 })
 export class AppModule { }
